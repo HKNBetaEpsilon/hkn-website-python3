@@ -49,7 +49,7 @@ def corporate(request):
 
 def make_members(form, electee):
     context = {}
-    uniqnames = form.cleaned_data.get('new_members').split(',')
+    uniqnames = form.cleaned_data.get('new_members').lower().split(',')
     try:
         # validate each submitted uniqname to make sure that a member
         # 	with that uniqname does not alread exist, and that it is
