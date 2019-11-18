@@ -6,6 +6,8 @@ static_in_env
 # Ignore IDE files
 .idea
 .idea/
+.vscode
+.vscode/
 
 # Ignore DB file
 *.sqlite3
