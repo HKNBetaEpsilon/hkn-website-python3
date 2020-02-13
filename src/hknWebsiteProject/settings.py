@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social.apps.django_app.default',
     'hknWebsiteProject', # SO Urls decode correctly
     'users',
     'electeeManagement',
@@ -136,8 +135,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
+    'social_django.context_processors.backends',
+    'social_django.context_processors.login_redirect',
 )
 
 AUTHENTICATION_BACKENDS = (
