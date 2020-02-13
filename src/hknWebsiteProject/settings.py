@@ -24,8 +24,6 @@ from .secret import SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,9 +78,9 @@ WSGI_APPLICATION = 'hknWebsiteProject.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 try:
-    from .production_settings import DATABASES
+    from .production_settings import DATABASES, ALLOWED_HOSTS
 except ImportError:
-    from .development_settings import DATABASES
+    from .development_settings import DATABASES, ALLOWED_HOSTS
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
