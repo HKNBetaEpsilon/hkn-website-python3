@@ -9,7 +9,7 @@ from users.models import Member
 from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import EmailMessage
 from django.shortcuts import render
-from utils import has_complete_profile, get_members_with_complete_profile, \
+from .utils import has_complete_profile, get_members_with_complete_profile, \
     get_members_with_uncomplete_profile, is_officer
 
 
@@ -23,7 +23,11 @@ class MyError(Exception):
 
 def home(request, bad_user=False):
     context = {}
-    if not request.user.is_anonymous():
+    try:
+        user_is_anonymous = request.user.is_anonymous()
+    except TypeError:
+        user_is_anonymous = request.user.is_anonymous
+    if not user_is_anonymous:
         # display prompt to ask member to complete their profile
         if not has_complete_profile(request.user.username):
             context = {
