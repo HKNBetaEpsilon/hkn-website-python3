@@ -44,7 +44,7 @@ class Member(models.Model):
                                     width_field=None, max_length=100, null=True, blank=True)
     resume = models.FileField(upload_to=user_directory_path, max_length=100, null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.uniqname
 
     class Meta:

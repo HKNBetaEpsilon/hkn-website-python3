@@ -21,5 +21,5 @@ class Leader(models.Model):
     description = models.CharField(max_length=140, default='Hi I\'m an officer')
     display_order = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.position

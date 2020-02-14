@@ -23,7 +23,7 @@ class Electee(models.Model):
     dues = models.BooleanField(default=False)
     general_meetings_missed = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.member.uniqname
 
 
@@ -38,7 +38,7 @@ class Social(models.Model):
     approved = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.electee.member.uniqname
 
 
@@ -67,7 +67,7 @@ class Service_Hours(models.Model):
     approved = models.IntegerField(choices=STATUSES, default=0) # Todo: store small strings in database
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.electee.member.uniqname
 
 
@@ -90,5 +90,5 @@ class Requirements(models.Model):
     requirement = models.CharField(max_length=100, choices=REQUIREMENTS, primary_key=True)
     num_required = models.IntegerField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.requirement
