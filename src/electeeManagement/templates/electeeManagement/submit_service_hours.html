@@ -13,6 +13,7 @@
     </a>
 
     <h3>Submit Service Hours</h3>
+    <h4>Reminder: A maximum of <font style='color: red; font-weight: bold;'>{{ max_hours_per_event }} hours</font> can be submitted per event.</h4>
     <form method='POST' action=''>{% csrf_token %}
         {{ form|crispy }}
         <input class='btn btn-default' type='submit' value='Submit'/>

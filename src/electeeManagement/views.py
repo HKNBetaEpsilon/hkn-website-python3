@@ -155,6 +155,9 @@ def submit_service_hours(request):
                 context['service_hours_submitted'] = True
 
         context['form'] = form
+        requirements = dict(
+            (requirements.requirement, requirements) for requirements in Requirements.objects.all())
+        context['max_hours_per_event'] = requirements['I_SINGLE_SERVICE_EVENT_HOURS'].num_required
 
     return render(request, "electeeManagement/submit_service_hours.html", context)
 
