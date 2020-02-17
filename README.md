@@ -6,6 +6,5 @@ https://hkn.eecs.umich.edu.
 
 ## Set Up
 
-There is an awesome [Wiki page]
-(https://github.com/HKNBetaEpsilon/new-hkn-website/wiki/)
+There is an awesome [Wiki page](https://gitlab.umich.edu/HKNBetaEpsilon/hkn-website/wikis/home)
 ! Head over there for set up instructions. 
