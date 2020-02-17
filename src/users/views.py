@@ -53,7 +53,7 @@ def profile(request, uniqname, profile_saved=0):
     m = Member.objects.get(uniqname=uniqname)
     logged_in_as = Member.objects.get(uniqname=request.user.username)
 
-    electee_progress = m.is_electee() and (is_curr_user or logged_in_as.is_officer())
+    electee_progress = m.is_electee() and (is_curr_user or request.user.is_superuser or logged_in_as.is_officer())
 
     if electee_progress:
         e = Electee.objects.get(member_id=uniqname)
