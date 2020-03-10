@@ -10,7 +10,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.mail import EmailMessage
 from django.shortcuts import render
 from .utils import has_complete_profile, get_members_with_complete_profile, \
-    get_members_with_uncomplete_profile, is_officer
+    get_members_with_uncomplete_profile
 
 
 class MyError(Exception):
@@ -157,11 +157,6 @@ This is an automated message please do not reply as this email is not checked. I
 @login_required()
 def mentoring_competition(request):
     context = {}
-    if not (request.user.is_superuser or is_officer(request.user.username)):
-        context = {
-            'error': True,
-            'error_msg': 'You do not have permission to access this page'
-        }
     return render(request, "hknWebsiteProject/mentoring_competition.html", context)
 
 
