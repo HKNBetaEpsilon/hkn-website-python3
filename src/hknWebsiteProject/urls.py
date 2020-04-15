@@ -32,6 +32,7 @@ urlpatterns = [
         name='profile'),
     url(r'^mentoring_competition', views.mentoring_competition, name='mentoring_competition'),
     url(r'^elections', views.elections, name='elections'),
+    url(r'^feedback', views.feedback, name='feedback'),
     url(r'^misc_tools/(?P<success>[0-1])$', views.misc_tools, name='misc_tools'),
     url(r'^misc_tools', views.misc_tools, name='misc_tools'),
     url(r'^email_uncompleted_profiles', views.email_uncompleted_profiles, name='email_uncompleted_profiles'),

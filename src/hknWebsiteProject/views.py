@@ -167,6 +167,12 @@ def elections(request):
 
 
 @login_required()
+def feedback(request):
+    context = {}
+    return render(request, "hknWebsiteProject/feedback.html", context)
+
+
+@login_required()
 def misc_tools(request, success=False):
     total_num_users = Member.objects.count()
     num_members_comp_prof = get_members_with_complete_profile().count()
