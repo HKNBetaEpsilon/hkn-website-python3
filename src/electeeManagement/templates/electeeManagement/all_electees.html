@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if success %}
+        <div class="alert alert-success">
+            <strong>Success!</strong>
+        </div>
+    {% endif %}
     <h1>Electee Progess</h1>
     <table class="table table-hover">
         <tr>
@@ -50,5 +55,21 @@
                 </td>
             </tr>
         {% endfor %}
+    </table>
+    <h1>Tools</h1>
+    <table class="table">
+        <tr>
+            <th><h3>Description</h3></th>
+            <th><h3>Action</h3></th>
+        </tr>
+        <tr>
+            <td>This button will go through all of the electees on the website and send them an
+                email with their current progress towards electing.
+            </td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'email_electee_progress' %}">Send Electee
+                    Progress Update</a>
+            </td>
+        </tr>
     </table>
 {% endblock %}

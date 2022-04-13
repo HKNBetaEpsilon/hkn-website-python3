@@ -1,4 +1,5 @@
 from users.models import Member
+#from users.views import member_list
 
 
 def has_complete_profile(uniqname):
@@ -25,8 +26,7 @@ def get_members_with_uncomplete_profile():
     members = Member.objects.all()
     members_uncomp_prof = []
     for m in members:
-        if not (
-                                    m.first_name and m.last_name and m.profile_pic and m.major and m.edu_level and m.graduation_date):
+        if not (m.first_name and m.last_name and m.profile_pic and m.major and m.edu_level and m.graduation_date):
             members_uncomp_prof.append(m)
     return members_uncomp_prof
 
@@ -41,6 +41,7 @@ def get_alumni_with_completed_profile():
     member_list = get_members_with_complete_profile()
     member_list = member_list.filter(edu_level__exact='AL')
     return member_list
+
 
 def is_officer(uniqname):
     if uniqname == None or len(uniqname) == 0:

@@ -1,6 +1,7 @@
 from datetime import date
 
 from electeeManagement.models import Electee
+from electeeManagement.views import all_electees
 from hknWebsiteProject import settings
 from django.contrib.auth.decorators import login_required
 from users.forms import NewMemberForm
