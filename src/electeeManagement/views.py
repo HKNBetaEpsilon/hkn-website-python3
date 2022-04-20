@@ -320,9 +320,15 @@ def remove_electee(request, uniqname):
 @login_required
 def email_electee_progress(request):
     electee_list = Electee.objects.filter(member__status='E')
+    requirements = dict(
+        (requirements.requirement, requirements) for requirements in Requirements.objects.all())
+    
     mail_list = []
 
     for electee in electee_list:
+        # Get requirements
+        req_social, req_service = ('A_UG_SOCIAL', 'C_UG_TOTAL_HOURS') if \
+            electee.member.is_undergraduate() else ('B_G_SOCIAL', 'D_G_TOTAL_HOURS')
         # Get interview status
         if electee.electee_interview:
             interview = 'COMPLETED'
@@ -356,8 +362,9 @@ def email_electee_progress(request):
 
         HKN
         '''.format( electee.member.uniqname, electee.member.first_name, electee.member.last_name,
-                    electee.num_socials_approved, electee.social_req, electee.num_service_hours_approved,
-                    electee.service_req, interview, exam, dues)
+                    electee.num_socials_approved, requirements[req_social].num_required,
+                    electee.num_service_hours_approved, requirements[req_service].num_required,
+                    interview, exam, dues)
         from_email = settings.EMAIL_HOST_USER
         to_email = ['hmuench@umich.edu']#[electee.member.uniqname + '@umich.edu']
 
