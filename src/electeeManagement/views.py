@@ -345,7 +345,7 @@ def email_electee_progress(request):
         else:
             dues = 'NOT PAID'
         # Create email
-        subject = '[HKN] Electee Progress Report ({})'
+        subject = '[HKN] Electee Progress Report ({})'.format(electee.member.uniqname)
         message = '''Dear {} {},
 
         This is an automatically generated report of your current progress towards electing into HKN.
@@ -361,7 +361,7 @@ def email_electee_progress(request):
         If you no longer wish to join HKN, email hkn-webmaster@umich.edu.
 
         HKN
-        '''.format( electee.member.uniqname, electee.member.first_name, electee.member.last_name,
+        '''.format( electee.member.first_name, electee.member.last_name,
                     electee.num_socials_approved, requirements[req_social].num_required,
                     electee.num_service_hours_approved, requirements[req_service].num_required,
                     interview, exam, dues)
