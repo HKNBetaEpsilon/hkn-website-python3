@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^misc_tools', views.misc_tools, name='misc_tools'),
     url(r'^email_uncompleted_profiles', views.email_uncompleted_profiles, name='email_uncompleted_profiles'),
     url(r'^make_alumni', views.make_alumni, name='make_alumni'),
+    url(r'^email_electee_progress', views.email_electee_progress, name='email_electee_progress'),
 ]
 
 if settings.DEBUG:

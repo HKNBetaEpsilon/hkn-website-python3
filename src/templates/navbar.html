@@ -18,10 +18,28 @@
                 <li><a href="{% url 'leadership' %}">Leadership</a></li>
                 <li><a href="{% url 'corporate' %}">Corporate</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'member_list' %}">Members</a></li>
-                    <li><a href="{% url 'mentoring_competition' %}">Mentoring Competition</a></li>
-                    <li><a href="{% url 'elections' %}">Elections</a></li>
-                    <li><a href="{% url 'feedback' %}">Feedback</a></li>                {% endif %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Members
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'member_list' %}">Member List</a></li>
+                            <li><a href="{% url 'mentoring_competition' %}">Mentoring Competition</a></li>
+                            <li><a href="{% url 'elections' %}">Elections</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Alumni
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'alumni_list' %}">Alumni List</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'feedback' %}">Feedback</a></li>
+                {% endif %}
                 {% if request.user.username|is_officer or request.user.is_superuser %}
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -29,13 +47,12 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'edit_electee_requirements' %}">Edit Electee
-                                Requirements</a></li>
                             <li><a href="{% url 'all_electees' %}">All Electee's Progess</a></li>
                             <li><a href="{% url 'electee_submission_approval' %}">Approve Electee
                                 Socials/Hours</a></li>
-                            <li><a href="{% url 'electee_turn_ins' %}">Mark Electee Turn Ins</a>
-                            </li>
+                            <li><a href="{% url 'electee_turn_ins' %}">Mark Electee Turn Ins</a></li>
+                            <li><a href="{% url 'edit_electee_requirements' %}">Edit Electee
+                                Requirements</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

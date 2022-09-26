@@ -33,16 +33,26 @@ def make_alpha_dict(members):
 
 @login_required()
 def member_list(request):
-    # displays the list of all members who have a complete profile
+    # displays the list of all undergrad/grad members who have a complete profile
     member_list = make_alpha_dict(get_current_members_with_completed_profile())
-    alumni_list = make_alpha_dict(get_alumni_with_completed_profile())
 
     context = {
         'member_list': member_list,
-        'alumni_list': alumni_list,
     }
 
     return render(request, "users/member_list.html", context)
+
+
+@login_required()
+def alumni_list(request):
+    # displays the list of all alumni members who have a complete profile
+    alumni_list = make_alpha_dict(get_alumni_with_completed_profile())
+
+    context = {
+        'alumni_list': alumni_list,
+    }
+
+    return render(request, "users/alumni_list.html", context)
 
 
 @login_required()

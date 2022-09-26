@@ -21,5 +21,4 @@ urlpatterns = [
         name='electee_convert'),
     url(r'^electee_remove/(?P<uniqname>[a-z]{3,8})$', views.remove_electee,
         name='electee_remove'),
-    url(r'^email_electee_progress', views.email_electee_progress, name='email_electee_progress'),
 ]

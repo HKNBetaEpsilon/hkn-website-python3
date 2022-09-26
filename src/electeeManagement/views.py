@@ -42,6 +42,7 @@ def all_electees(request):
 
         # process the electee progress, so that wo don't have to run those if-else in template html
         electee_list_plain = []
+        total_hours = 0
         for electee in electee_list:
             progress = {
                 'uniqname': electee.member.uniqname,
@@ -54,6 +55,7 @@ def all_electees(request):
                 'electee_exam': electee.electee_exam,
                 'dues': electee.dues,
             }
+            total_hours += electee.num_service_hours_approved
 
             # check for if requirement meets
             req_social, req_service = ('A_UG_SOCIAL', 'C_UG_TOTAL_HOURS') if \
@@ -74,6 +76,7 @@ def all_electees(request):
             electee_list_plain.append(progress)
 
         context['electee_list'] = electee_list_plain
+        context['total_hours'] = total_hours
 
     return render(request, "electeeManagement/all_electees.html", context)
 
@@ -315,63 +318,4 @@ def remove_electee(request, uniqname):
             member = Member.objects.get(uniqname=uniqname)
             member.delete()
     return redirect(request.META.get('HTTP_REFERER'), None, None)
-
-
-@login_required
-def email_electee_progress(request):
-    electee_list = Electee.objects.filter(member__status='E')
-    requirements = dict(
-        (requirements.requirement, requirements) for requirements in Requirements.objects.all())
-    
-    mail_list = []
-
-    for electee in electee_list:
-        # Get requirements
-        req_social, req_service = ('A_UG_SOCIAL', 'C_UG_TOTAL_HOURS') if \
-            electee.member.is_undergraduate() else ('B_G_SOCIAL', 'D_G_TOTAL_HOURS')
-        # Get interview status
-        if electee.electee_interview:
-            interview = 'COMPLETED'
-        else:
-            interview = 'NOT COMPLETED'
-        # Get exam status
-        if electee.electee_exam:
-            exam = 'COMPLETED'
-        else:
-            exam = 'NOT COMPLETED'
-        # Get dues status
-        if electee.dues:
-            dues = 'PAID'
-        else:
-            dues = 'NOT PAID'
-        # Create email
-        subject = '[HKN] Electee Progress Report ({})'.format(electee.member.uniqname)
-        message = '''Dear {} {},
-
-        This is an automatically generated report of your current progress towards electing into HKN.
-
-        Completed Requirements:
-        Socials: {}/{}
-        Projects: {}/{}
-        Electee Interview: {}
-        Electee Exam: {}
-        Paid Dues: {}
-
-        If you have any questions about completing requirements or electing in general, email hkn-vp@umich.edu.
-        If you no longer wish to join HKN, email hkn-webmaster@umich.edu.
-
-        HKN
-        '''.format( electee.member.first_name, electee.member.last_name,
-                    electee.num_socials_approved, requirements[req_social].num_required,
-                    electee.num_service_hours_approved, requirements[req_service].num_required,
-                    interview, exam, dues)
-        from_email = settings.EMAIL_HOST_USER
-        to_email = ['hmuench@umich.edu']#[electee.member.uniqname + '@umich.edu']
-
-        email = EmailMessage(subject, message, from_email)
-        email.to = to_email
-        email.cc = [from_email]
-        email.send()
-
-    return all_electees(request)
 

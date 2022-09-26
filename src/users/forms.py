@@ -46,5 +46,5 @@ class NewMemberForm(forms.Form):
                 raise forms.ValidationError("A Uniqname is either too long or too short:" + name)
             if not str(name).isalpha():
                 raise forms.ValidationError(
-                    "A Uniqname has a non alphabetical character in it" + name)
+                    "A Uniqname has a non alphabetical character in it " + name)
         return new_members

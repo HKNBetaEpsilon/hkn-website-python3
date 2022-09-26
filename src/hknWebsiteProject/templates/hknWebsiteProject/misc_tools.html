@@ -34,6 +34,15 @@
                 <a class="btn btn-warning" href="{% url 'make_alumni' %}">Make Alumni</a>
             </td>
         </tr>
+        <tr>
+            <td>This button will go through all of the electees on the website and send them an
+                email with their current progress towards electing.
+            </td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'email_electee_progress' %}">Send Electee
+                    Progress Update</a>
+            </td>
+        </tr>
     </table>
     <h3>Uniqnames that have accounts in the website</h3>
     {% for m in members %}
