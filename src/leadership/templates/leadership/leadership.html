@@ -16,7 +16,7 @@
                 {% if forloop.counter0|divisibleby:3 %}
                     <div class='row top-pictures-row'>
                 {% endif %}
-            <div class='col-sm-4'>
+                <div class='col-sm-4'>
                 {% if leader.member.profile_pic %}
                     {% include 'leadership/leadership_thumbnail.html' with leader_pic=leader.member.profile_pic %}
                 {% else %}
