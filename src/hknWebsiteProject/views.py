@@ -1,6 +1,6 @@
 from datetime import date
 
-from electeeManagement.models import Electee
+from electeeManagement.models import Electee, Requirements
 from electeeManagement.views import all_electees
 from hknWebsiteProject import settings
 from django.contrib.auth.decorators import login_required
@@ -259,7 +259,7 @@ def email_electee_progress(request):
         Paid Dues: {}
 
         If you have any questions about completing requirements or electing in general, email hkn-vp@umich.edu.
-        If you no longer wish to join HKN, email hkn-webmaster@umich.edu.
+        If you no longer wish to join HKN, email hkn-officers@umich.edu.
 
         HKN
         '''.format( electee.member.first_name, electee.member.last_name,
