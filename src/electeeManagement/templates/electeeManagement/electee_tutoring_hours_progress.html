@@ -1,0 +1,6 @@
+{{ electee.num_service_hours_tutoring }} / Maximum of
+{% if profile.is_undergraduate %}
+    {{ requirements.G_UG_DT_HOURS.num_required }}
+{% else %}
+    {{ requirements.H_G_DT_HOURS.num_required }}
+{% endif %}

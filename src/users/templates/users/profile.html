@@ -119,6 +119,12 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td><h4>Drop-In Tutoring Hours Submitted: </h4></td>
+                                        <td>
+                                            <h4>{% include 'electeeManagement/electee_tutoring_hours_progress.html' with electee=e requirements=requirements %}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td><h4>External Service Hours Submitted: </h4></td>
                                         <td>
                                             <h4>{% include 'electeeManagement/electee_external_hours_progress.html' with electee=e requirements=requirements %}</h4>

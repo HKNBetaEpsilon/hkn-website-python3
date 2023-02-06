@@ -78,6 +78,7 @@ def profile(request, uniqname, profile_saved=0):
             'num_service_hours_approved': e.num_service_hours_approved,
             'num_service_hours_total' : e.num_service_hours_total,
             'num_service_hours_db' : e.num_service_hours_db,
+            'num_service_hours_tutoring' : e.num_service_hours_tutoring,
             'num_service_hours_hkn' : e.num_service_hours_hkn,
             'num_service_hours_external' : e.num_service_hours_external,
             'electee_interview': e.electee_interview,

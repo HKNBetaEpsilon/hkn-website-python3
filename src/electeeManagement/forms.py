@@ -21,7 +21,7 @@ class ServiceHoursForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ServiceHoursForm, self).__init__(*args, **kwargs)
         self.fields['num_hours'].widget.attrs.update({
-            'step': '0.5'
+            'step': '0.25'
         })
     class Meta:
         model = Service_Hours

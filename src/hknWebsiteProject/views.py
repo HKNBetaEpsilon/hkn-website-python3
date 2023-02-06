@@ -57,7 +57,7 @@ def make_members(form, electee):
     uniqnames = form.cleaned_data.get('new_members').lower().split(',')
     try:
         # validate each submitted uniqname to make sure that a member
-        # 	with that uniqname does not alread exist, and that it is
+        # 	with that uniqname does not already exist, and that it is
         # 	alphabetic and a valid number of characters
         for name in uniqnames:
             if Member.objects.filter(uniqname=name).exists():
@@ -65,7 +65,7 @@ def make_members(form, electee):
     except MyError:
         context = {
             'error': True,
-            'error_msg': 'Uniqname ' + name + ' alread exists! None added.'
+            'error_msg': 'Uniqname ' + name + ' already exists! None added.'
         }
     else:
         # display message saying members were successfully submitted
@@ -124,7 +124,7 @@ def login_user(request):
         try:
             m = Member.objects.get(uniqname=email_base)
 
-            # If the user doesn't have name in thier profile, defualt to the
+            # If the user doesn't have name in their profile, default to the
             # name registered with their login info
             if not m.first_name:
                 m.first_name = request.user.first_name

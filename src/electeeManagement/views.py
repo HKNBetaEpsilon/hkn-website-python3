@@ -18,10 +18,33 @@ def update_approved_hours():
     for e in all_electees:
         e.num_socials_approved = Social.objects.filter(electee=e).filter(approved='1').count()
 
+        requirements = dict(
+            (requirements.requirement, requirements) for requirements in Requirements.objects.all())
+        max_db, max_dt, max_ex = ('E_UG_DB_HOURS', 'G_UG_DT_HOURS', 'I_UG_EXTERNAL_HOURS') if \
+                    e.member.is_undergraduate() else ('F_G_DB_HOURS', 'H_G_DT_HOURS', 'J_G_EXTERNAL_HOURS')
+
         e.num_service_hours_approved = 0
+        num_db_hours = 0
+        num_tutoring_hours = 0
+        num_ex_hours = 0
+        num_hkn_hours = 0
         service_hours = Service_Hours.objects.filter(electee=e).filter(approved='1')
         for event in service_hours:
-            e.num_service_hours_approved += event.num_hours
+            if event.service_type == 'dB':
+                num_db_hours += event.num_hours
+            elif event.service_type == 'HKN':
+                num_hkn_hours += event.num_hours
+            elif event.service_type == 'DT':
+                num_tutoring_hours += event.num_hours
+            else: #event.service_type == 'Ex':
+                num_ex_hours += event.num_hours
+        if num_db_hours > requirements[max_db].num_required:
+            num_db_hours = requirements[max_db].num_required
+        if num_ex_hours > requirements[max_ex].num_required:
+            num_ex_hours = requirements[max_ex].num_required
+        if num_tutoring_hours > requirements[max_dt].num_required:
+            num_tutoring_hours = requirements[max_dt].num_required
+        e.num_service_hours_approved = num_db_hours + num_ex_hours + num_hkn_hours + num_tutoring_hours
         e.save()
 
 
@@ -133,7 +156,8 @@ def submit_service_hours(request):
             'error': False,
             'service_hours_submitted': False
         }
-
+        requirements = dict(
+            (requirements.requirement, requirements) for requirements in Requirements.objects.all())
         form = ServiceHoursForm(request.POST or None)
         if request.POST:
             if form.is_valid():
@@ -143,13 +167,23 @@ def submit_service_hours(request):
                 service_hours.save()
 
                 electee = Electee.objects.get(member_id=request.user.username)
+                max_db, max_dt, max_ex = ('E_UG_DB_HOURS', 'G_UG_DT_HOURS', 'I_UG_EXTERNAL_HOURS') if \
+                    electee.member.is_undergraduate() else ('F_G_DB_HOURS', 'H_G_DT_HOURS', 'J_G_EXTERNAL_HOURS')
                 electee.num_service_hours_total = electee.num_service_hours_total + service_hours.num_hours
                 if service_hours.service_type == 'dB':
                     electee.num_service_hours_db = electee.num_service_hours_db + service_hours.num_hours
+                    if electee.num_service_hours_db > requirements[max_db].num_required:
+                        electee.num_service_hours_db = requirements[max_db].num_required
                 elif service_hours.service_type == 'HKN':
                     electee.num_service_hours_hkn = electee.num_service_hours_hkn + service_hours.num_hours
+                elif service_hours.service_type == 'DT':
+                    electee.num_service_hours_tutoring = electee.num_service_hours_tutoring + service_hours.num_hours
+                    if electee.num_service_hours_tutoring > requirements[max_dt].num_required:
+                        electee.num_service_hours_tutoring = requirements[max_dt].num_required
                 else:
                     electee.num_service_hours_external = electee.num_service_hours_external + service_hours.num_hours
+                    if electee.num_service_hours_external > requirements[max_ex].num_required:
+                        electee.num_service_hours_external = requirements[max_ex].num_required
                 electee.save()
 
                 # display a new blank form
@@ -159,9 +193,7 @@ def submit_service_hours(request):
                 context['service_hours_submitted'] = True
 
         context['form'] = form
-        requirements = dict(
-            (requirements.requirement, requirements) for requirements in Requirements.objects.all())
-        context['max_hours_per_event'] = requirements['I_SINGLE_SERVICE_EVENT_HOURS'].num_required
+        context['max_hours_per_event'] = requirements['K_SINGLE_SERVICE_EVENT_HOURS'].num_required
 
     return render(request, "electeeManagement/submit_service_hours.html", context)
 
@@ -261,12 +293,16 @@ def initilize_electee_requirements(request):
             e.save()
             f = Requirements(requirement='F_G_DB_HOURS', num_required=0)
             f.save()
-            g = Requirements(requirement='G_UG_EXTERNAL_HOURS', num_required=0)
+            g = Requirements(requirement='G_UG_DT_HOURS', num_required=0)
             g.save()
-            h = Requirements(requirement='H_G_EXTERNAL_HOURS', num_required=0)
+            h = Requirements(requirement='H_G_DT_HOURS', num_required=0)
             h.save()
-            i = Requirements(requirement='I_SINGLE_SERVICE_EVENT_HOURS', num_required=0)
+            i = Requirements(requirement='I_UG_EXTERNAL_HOURS', num_required=0)
             i.save()
+            j = Requirements(requirement='J_G_EXTERNAL_HOURS', num_required=0)
+            j.save()
+            k = Requirements(requirement='K_SINGLE_SERVICE_EVENT_HOURS', num_required=0)
+            k.save()
 
             context['submitted'] = True
 
@@ -307,7 +343,16 @@ def convert(request, uniqname):
                 member.status = 'A'
                 member.save()
                 electee = Electee.objects.get(member=member)
-                electee.delete()
+                # Create Email to document completed requirements
+                # subject = '[HKN] Electee has been converted to Active'
+                # message = '''{} has been converted to an active! Here is a summary of their hours and socials:
+                
+                # Hours:
+                # Drop-In Tutoring - 0
+                # dB Cafe - {}
+                # '''.format(uniqname, 0)
+
+                # electee.delete()
     return redirect(request.META.get('HTTP_REFERER'), None, None)
 
 

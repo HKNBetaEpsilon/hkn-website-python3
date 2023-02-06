@@ -13,11 +13,12 @@ class Electee(models.Model):
     # electee requirement progress
     num_socials_approved = models.IntegerField(default=0)
     num_socials_total = models.IntegerField(default=0)
-    num_service_hours_approved = models.DecimalField(max_digits=6, decimal_places=1, default=0)
-    num_service_hours_total = models.DecimalField(max_digits=6, decimal_places=1, default=0)
-    num_service_hours_db = models.DecimalField(max_digits=6, decimal_places=1, default=0)
-    num_service_hours_hkn = models.DecimalField(max_digits=6, decimal_places=1, default=0)
-    num_service_hours_external = models.DecimalField(max_digits=6, decimal_places=1, default=0)
+    num_service_hours_approved = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    num_service_hours_total = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    num_service_hours_db = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    num_service_hours_tutoring = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    num_service_hours_hkn = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    num_service_hours_external = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     electee_interview = models.BooleanField(default=False)
     electee_exam = models.BooleanField(default=False)
     dues = models.BooleanField(default=False)
@@ -50,6 +51,7 @@ class Service_Hours(models.Model):
         ('dB', 'dB Cafe'),
         ('HKN', 'HKN'),
         ('Ex', 'External'),
+        ('DT', 'Drop-In Tutoring'),
     )
 
     STATUSES = (
@@ -63,7 +65,8 @@ class Service_Hours(models.Model):
 
     service_type = models.CharField(max_length=3, choices=SERVICE_TYPE)
     service_name = models.CharField(max_length=100)
-    num_hours = models.DecimalField(max_digits=6, decimal_places=1)
+    # Possible add a date field for the event
+    num_hours = models.DecimalField(max_digits=6, decimal_places=2)
     approved = models.IntegerField(choices=STATUSES, default=0) # Todo: store small strings in database
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -82,9 +85,11 @@ class Requirements(models.Model):
         ('D_G_TOTAL_HOURS', 'Grad Total Service Hours'),
         ('E_UG_DB_HOURS', 'Max Undergrad dB Service Hours'),
         ('F_G_DB_HOURS', 'Max Grad dB Service Hours'),
-        ('G_UG_EXTERNAL_HOURS', 'Max Undergrad External Service Hours'),
-        ('H_G_EXTERNAL_HOURS', 'Max Grad External Service Hours'),
-        ('I_SINGLE_SERVICE_EVENT_HOURS', 'Max Hours for a Single Service Event'),
+        ('G_UG_DT_HOURS', 'Max Undergrad Drop-In Tutoring Hours'),
+        ('H_G_DT_HOURS', 'Max Grad Drop-In Tutoring Hours'),
+        ('I_UG_EXTERNAL_HOURS', 'Max Undergrad External Service Hours'),
+        ('J_G_EXTERNAL_HOURS', 'Max Grad External Service Hours'),
+        ('K_SINGLE_SERVICE_EVENT_HOURS', 'Max Hours for a Single Service Event'),
     )
 
     requirement = models.CharField(max_length=100, choices=REQUIREMENTS, primary_key=True)
