@@ -24,6 +24,7 @@ class Member(models.Model):
         ('CE', 'Computer Engineering'),
         ('EE', 'Electrical Engineering'),
         ('DS', 'Data Science'),
+        ('RB', 'Robotics Engineering'),
     )
 
     EDU_LEVEL = (
